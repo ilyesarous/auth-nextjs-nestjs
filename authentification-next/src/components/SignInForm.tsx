@@ -1,6 +1,8 @@
 "use client";
 
+import { request } from "@/api/AxiosHelper";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -10,8 +12,9 @@ const Form = () => {
   const [showPass, setShowPass] = useState("password");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [passowrd, setPassowrd] = useState("");
+  const [password, setPassowrd] = useState("");
   const [verifPassword, setVerifPassword] = useState("");
+  const router = useRouter();
 
   const showPassword = () => {
     setIsShown(!isShown);
@@ -20,8 +23,19 @@ const Form = () => {
 
   const registerHandler = (e: SyntheticEvent) => {
     e.preventDefault();
-    verifPassword !== passowrd ? setShowError(true) : setShowError(false);
-  }
+    verifPassword !== password ? setShowError(true) : setShowError(false);
+    if (!showError) {
+      const user = {
+        name,
+        email,
+        password,
+      };
+      request("POST", "/user", user).then((res) => {
+        console.log(res.data);
+        router.push("/login")
+      });
+    }
+  };
 
   return (
     <div className="rounded-lg p-10 shadow-md">
@@ -57,7 +71,7 @@ const Form = () => {
             )}
           </span>
         </span>
-        <div >
+        <div>
           <input
             type={showPass}
             placeholder="verif password"
@@ -72,7 +86,10 @@ const Form = () => {
             <p></p>
           )}
         </div>
-        <button type="submit" className="bg-gray-500 p-2 rounded-md text-white font-medium">
+        <button
+          type="submit"
+          className="bg-gray-500 p-2 rounded-md text-white font-medium"
+        >
           register
         </button>
         <span className="flex w-80 justify-center">
