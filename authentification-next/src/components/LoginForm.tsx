@@ -1,6 +1,8 @@
 "use client";
 
+import { request } from "@/api/AxiosHelper";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -8,7 +10,8 @@ const Form = () => {
   const [isShown, setIsShown] = useState(false);
   const [showPass, setShowPass] = useState("password");
   const [email, setEmail] = useState("");
-  const [passowrd, setPassowrd] = useState("");
+  const [password, setPassowrd] = useState("");
+  const router = useRouter();
 
   const showPassword = () => {
     setIsShown(!isShown);
@@ -17,14 +20,20 @@ const Form = () => {
 
   const registerHandler = (e: SyntheticEvent) => {
     e.preventDefault();
-    
-  }
+    const userInfos = { email, password };
+    request("POST", "/user/login", userInfos)
+      .then(() => {
+        router.push("/profile");
+        alert("logged in successfully");
+      })
+      .catch((e: Error) => console.log(e.message));
+  };
 
   return (
     <div className="rounded-lg p-10 shadow-md">
       <form onSubmit={registerHandler} className="flex flex-col gap-6">
         <p className="text-xl font-semibold">Login</p>
-        
+
         <input
           type="email"
           placeholder="email"
@@ -49,8 +58,11 @@ const Form = () => {
             )}
           </span>
         </span>
-        
-        <button type="submit" className="bg-gray-500 p-2 rounded-md text-white font-medium">
+
+        <button
+          type="submit"
+          className="bg-gray-500 p-2 rounded-md text-white font-medium"
+        >
           login
         </button>
         <span className="flex w-80 justify-center">

@@ -11,9 +11,12 @@ export class UserService {
     const saltOrRounds = 10;
     createUserDto.password = await bcrypt.hash(
       createUserDto.password,
-      saltOrRounds, 
+      saltOrRounds,
     );
-    return this.databaseService.user.create({ data: createUserDto });
+    const user = await this.databaseService.user.create({ data: createUserDto })
+    delete user.password//matrajaalich password
+
+    return user;
   }
 
   findAll() {
@@ -29,13 +32,12 @@ export class UserService {
   }
 
   login(email: string) {
-  
     let user = this.databaseService.user.findUnique({
-        where: {
-          email,
-        },
-      })
-      
+      where: {
+        email,
+      },
+    });
+
     return user;
   }
 

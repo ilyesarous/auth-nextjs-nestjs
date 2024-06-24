@@ -7,14 +7,22 @@ import {
   Param,
   Delete,
   NotFoundException,
+  Res,
+  Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { Request, Response } from 'express';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
   @Post()
   create(@Body() createUserDto: Prisma.userCreateInput) {
@@ -22,17 +30,23 @@ export class UserController {
   }
 
   @Post('login')
-  async login(@Body() email: string, @Body() password: string) {
-    const user = await this.userService.login(email);
+  async login(
+    @Body() user: Prisma.userCreateInput,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const user1 = await this.userService.login(user.email);
     console.log(user);
-    
     if (!user) {
       throw new NotFoundException('check your email!');
     }
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (!(await bcrypt.compare(user.password, user1.password))) {
       throw new NotFoundException('check your password!');
     }
-    return user;
+
+    const jwt = await this.jwtService.signAsync({ id: user1.id });
+
+    res.cookie('jwt', jwt, { httpOnly: true }); // store the jwt into a cookie
+    return jwt;
   }
 
   @Get()
@@ -40,9 +54,28 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get('getUser')
+  async getUser(@Req() req: Request) {
+    try {
+      const cookie = req.cookies['jwt'];
+
+      const data = await this.jwtService.verifyAsync(cookie);
+      if (!data) {
+        throw new UnauthorizedException();
+      }
+      const user = await this.userService.findOne(data.id);
+      const { password, ...result } = user;
+      return result;
+    } catch (e) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('jwt');
+
+    return "loggedout successfully"
   }
 
   @Patch(':id')
