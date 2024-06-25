@@ -30,10 +30,14 @@ const Form = () => {
         email,
         password,
       };
-      request("POST", "/user", user).then((res) => {
-        console.log(res.data);
-        router.push("/login")
-      });
+      request("POST", "/user", user)
+        .then((res) => {
+          console.log(res.data);
+          router.push("/login");
+        })
+        .catch((e: Error) => {
+          alert(e.response.data.message);
+        });
     }
   };
 
@@ -46,12 +50,14 @@ const Form = () => {
           placeholder="name"
           className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
           onChange={(e) => setName(e.target.value)}
+          required
         />
         <input
           type="email"
           placeholder="email"
           className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <span className="flex border border-gray-300 rounded-md items-center px-2.5">
           <input
@@ -59,6 +65,7 @@ const Form = () => {
             placeholder="password"
             className="bg-transparent text-sm py-4 block w-full"
             onChange={(e) => setPassowrd(e.target.value)}
+            required
           />
           <span
             className="hover:bg-slate-100 rounded-full p-2 transition-all"
@@ -77,6 +84,7 @@ const Form = () => {
             placeholder="verif password"
             className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
             onChange={(e) => setVerifPassword(e.target.value)}
+            required
           />
           {showError ? (
             <p className="text-red-500 text-xs">

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from 'src/database/database.service';
 import * as bcrypt from 'bcrypt';
@@ -7,14 +11,17 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async create(createUserDto: Prisma.userCreateInput) {
+  async create(createUser: Prisma.userCreateInput) {
+    if (createUser.password.length < 6) {
+      throw new NotAcceptableException(
+        'password needs to have at least 6 caracters!',
+      );
+    }
     const saltOrRounds = 10;
-    createUserDto.password = await bcrypt.hash(
-      createUserDto.password,
-      saltOrRounds,
-    );
-    const user = await this.databaseService.user.create({ data: createUserDto })
-    delete user.password//matrajaalich password
+    // crypting the password using bcrypt
+    createUser.password = await bcrypt.hash(createUser.password, saltOrRounds);
+    const user = await this.databaseService.user.create({ data: createUser });
+    delete user.password; //to not show the password in the return
 
     return user;
   }
@@ -41,9 +48,9 @@ export class UserService {
     return user;
   }
 
-  update(id: number, updateUserDto: Prisma.userUpdateInput) {
+  update(id: number, updateUser: Prisma.userUpdateInput) {
     return this.databaseService.user.update({
-      data: updateUserDto,
+      data: updateUser,
       where: {
         id,
       },

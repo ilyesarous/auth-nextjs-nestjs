@@ -18,15 +18,14 @@ const Form = () => {
     !isShown ? setShowPass("text") : setShowPass("password");
   };
 
-  const registerHandler = (e: SyntheticEvent) => {
+  const registerHandler = async (e: SyntheticEvent) => {
     e.preventDefault();
     const userInfos = { email, password };
-    request("POST", "/user/login", userInfos)
+    await request("POST", "/user/login", userInfos)
       .then(() => {
         router.push("/profile");
-        alert("logged in successfully");
       })
-      .catch((e: Error) => console.log(e.message));
+      .catch((e: Error) => alert(e.response.data.message));
   };
 
   return (
@@ -39,6 +38,7 @@ const Form = () => {
           placeholder="email"
           className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <span className="flex border border-gray-300 rounded-md items-center px-2.5">
           <input
@@ -46,6 +46,7 @@ const Form = () => {
             placeholder="password"
             className="bg-transparent text-sm py-4 block w-full"
             onChange={(e) => setPassowrd(e.target.value)}
+            required
           />
           <span
             className="hover:bg-slate-100 rounded-full p-2 transition-all"

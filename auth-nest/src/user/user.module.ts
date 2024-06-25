@@ -7,8 +7,8 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     DatabaseModule,
-    JwtModule.register({
-      secret: 'secret',
+    JwtModule.register({ //needed to allow creating the token
+      secret: process.env.TOKEN_SECRET, 
       signOptions: { expiresIn: '1d' },
     }),
   ],
