@@ -15,7 +15,7 @@ const Form = () => {
 
   const showPassword = () => {
     setIsShown(!isShown);
-    !isShown ? setShowPass("text") : setShowPass("password");
+    !isShown ? setShowPass("text") : setShowPass("password"); // change the type of the input from password into text
   };
 
   const registerHandler = async (e: SyntheticEvent) => {

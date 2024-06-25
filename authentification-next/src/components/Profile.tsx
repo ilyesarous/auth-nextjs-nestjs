@@ -22,10 +22,11 @@ const ProfileComponent = () => {
     getUser();
   }, []);
   const showContent = () => {
-    if (!isUser) return notFound();
+    if (!isUser) return notFound(); // in case there is no cookie, we cannot access the profile page, therefore, i've forced the not found page 
     return (
       <div>
-        <p className="text-3xl"> welcome {user.name} </p>
+        {/* show the user name */}
+        <p className="text-3xl"> welcome {user.name} </p> 
         <button onClick={logoutHandler}>logout</button>
       </div>
     );

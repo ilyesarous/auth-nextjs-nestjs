@@ -5,7 +5,8 @@ import React, { Suspense } from "react";
 const Profile = () => {
   return (
     <div>
-      <Suspense fallback={<Loading />}>
+      {/* call for the loading page incase the fetch takes time */}
+      <Suspense fallback={<Loading />}> 
         <ProfileComponent />
       </Suspense>
     </div>

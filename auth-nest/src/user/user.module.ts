@@ -9,7 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
     DatabaseModule,
     JwtModule.register({ //needed to allow creating the token
       secret: process.env.TOKEN_SECRET, 
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '1d' }, //the token expires in 1 day
     }),
   ],
   controllers: [UserController],
