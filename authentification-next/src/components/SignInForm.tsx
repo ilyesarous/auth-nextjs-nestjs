@@ -12,6 +12,7 @@ const Form = () => {
   const [showPass, setShowPass] = useState("password");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("choose a role");
   const [password, setPassowrd] = useState("");
   const [verifPassword, setVerifPassword] = useState("");
   const router = useRouter();
@@ -29,6 +30,7 @@ const Form = () => {
         name,
         email,
         password,
+        role,
       };
       request("POST", "/user", user)
         .then((res) => {
@@ -59,6 +61,11 @@ const Form = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        <select onChange={(e) => setRole(e.target.value)}>
+          <option value="ADMIN">admin</option>
+          <option value="INTERN">intern</option>
+          <option value="CONDIDAT">condidat</option>
+        </select>
         <span className="flex border border-gray-300 rounded-md items-center px-2.5">
           <input
             type={showPass}
