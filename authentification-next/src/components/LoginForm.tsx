@@ -66,12 +66,17 @@ const Form = () => {
         >
           login
         </button>
-        <span className="flex w-80 justify-center">
-          <p className="text-sm">don't have an account? &nbsp;</p>
-          <Link className="text-sm text-blue-400" href="/signup">
-            create an account!
+        <div className="flex flex-col items-center">
+          <span className="flex w-80 justify-center">
+            <p className="text-sm">don't have an account? &nbsp;</p>
+            <Link className="text-sm text-blue-400" href="/signup">
+              create an account!
+            </Link>
+          </span>
+          <Link className="text-sm text-blue-400" href="/forgot-password">
+            forgot password?
           </Link>
-        </span>
+        </div>
       </form>
     </div>
   );

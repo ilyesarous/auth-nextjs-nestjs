@@ -26,7 +26,8 @@ export class UserController {
   ) {}
 
   @Post()
-  create(@Body() createUser: Prisma.userCreateInput) { //Prisma.userCreateInput => get the type from the db
+  create(@Body() createUser: Prisma.userCreateInput) {
+    //Prisma.userCreateInput => get the type from the db
     return this.userService.create(createUser);
   }
 
@@ -40,7 +41,7 @@ export class UserController {
         'password needs to have at least 6 caracters!',
       );
     }
-    const user1 = await this.userService.login(user.email);
+    const user1 = await this.userService.findOneByEmail(user.email);
     // check if the user is found or not
     if (!user) {
       throw new NotFoundException('check your email!');
@@ -56,6 +57,24 @@ export class UserController {
     return jwt;
   }
 
+  @Post('forgetPassword')
+  async forgetPassword(
+    @Body() user: Prisma.userCreateInput,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    //check if the user exists or not
+    const user1 = await this.userService.findOneByEmail(user.email);
+    if (!user1) {
+      throw new NotFoundException('no user found! check your email!');
+    }
+    //create a token and save it in a cookie so we can use the users info to update the password later
+    const jwt = await this.jwtService.signAsync({ id: user1.id });
+    res.cookie('jwt', jwt, { httpOnly: true });
+    //send an email that containes a link for updating the password
+    const mail = this.userService.sendMail(user.email);
+    return mail;
+  }
+
   @Get()
   findAll() {
     return this.userService.findAll();
@@ -64,7 +83,7 @@ export class UserController {
   @Get('getUser')
   async getUser(@Req() req: Request) {
     try {
-      const cookie = req.cookies['jwt'];
+      const cookie = req.cookies["jwt"];
       //check if the cookie is valid or not
       const data = await this.jwtService.verifyAsync(cookie);
       if (!data) {
