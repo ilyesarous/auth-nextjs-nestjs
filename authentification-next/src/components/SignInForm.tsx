@@ -12,7 +12,7 @@ const Form = () => {
   const [showPass, setShowPass] = useState("password");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("choose a role");
+  const [role, setRole] = useState("");
   const [password, setPassowrd] = useState("");
   const [verifPassword, setVerifPassword] = useState("");
   const router = useRouter();
@@ -61,7 +61,11 @@ const Form = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <select onChange={(e) => setRole(e.target.value)}>
+        <select
+          onChange={(e) => setRole(e.target.value)}
+          className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5"
+        >
+          <option value="">choose a role</option>
           <option value="ADMIN">admin</option>
           <option value="INTERN">intern</option>
           <option value="CONDIDAT">condidat</option>
