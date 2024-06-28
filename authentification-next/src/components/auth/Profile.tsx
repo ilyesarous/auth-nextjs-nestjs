@@ -1,20 +1,21 @@
 "use client";
 import { request } from "@/api/AxiosHelper";
-// import Loading from "@/app/loading";
+import Image from "next/image";
 import { notFound, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const ProfileComponent = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<any>({});
+  const [image, setImage] = useState<any>();
   const [isUser, setISUser] = useState(true);
   const router = useRouter();
   const getUser = async () => {
-    // await new Promise((res) => setTimeout(res, 2000));
     await request("GET", "/user/getUser")
       .then((res) => {
+        setImage(require(`../../../../auth-nest/images/${res.data.image}`));
         setUser(res.data);
       })
-      .catch((e) => {
+      .catch(() => {
         setISUser(false);
       });
   };
@@ -22,11 +23,12 @@ const ProfileComponent = () => {
     getUser();
   }, []);
   const showContent = () => {
-    if (!isUser) return notFound(); // in case there is no cookie, we cannot access the profile page, therefore, i've forced the not found page 
+    if (!isUser) return notFound(); // in case there is no cookie, we cannot access the profile page, therefore, i've forced the not found page
     return (
       <div>
         {/* show the user name */}
-        <p className="text-3xl"> welcome {user.name} </p> 
+        <p className="text-3xl"> welcome {user.name} </p>
+        <Image src={image} alt="" width={100} height={100} />
         <button onClick={logoutHandler}>logout</button>
       </div>
     );

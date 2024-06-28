@@ -11,12 +11,17 @@ import {
   Req,
   UnauthorizedException,
   NotAcceptableException,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
 
 @Controller('user')
 export class UserController {
@@ -26,17 +31,35 @@ export class UserController {
   ) {}
 
   @Post()
-  create(@Body() createUser: Prisma.userCreateInput) {
-    //Prisma.userCreateInput => get the type from the db
+  @UseInterceptors( //interceptor to upload a file
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './images', // folder destination 
+        filename: (req, file, cb) => {
+          const filename = `UPLOADEDPROFILEPIC-${uuidv4()}-${file.originalname}`; // change the file name
+          cb(null, filename);
+        },  
+      }),
+    }),
+  )
+  async create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createUser: Prisma.usersCreateInput,
+  ) {
+    if (file) {
+      createUser.image = file.filename;
+    }
+    
     return this.userService.create(createUser);
   }
 
   @Post('login')
   async login(
-    @Body() user: Prisma.userCreateInput,
+    @Body() user: Prisma.usersCreateInput,
+
     @Res({ passthrough: true }) res: Response,
   ) {
-    if (user.password.length < 6) {
+    if (user.password.length < 6) { 
       throw new NotAcceptableException(
         'password needs to have at least 6 caracters!',
       );
@@ -59,7 +82,7 @@ export class UserController {
 
   @Post('forgetPassword')
   async forgetPassword(
-    @Body() user: Prisma.userCreateInput,
+    @Body() user: Prisma.usersCreateInput,
     @Res({ passthrough: true }) res: Response,
   ) {
     //check if the user exists or not
@@ -83,7 +106,7 @@ export class UserController {
   @Get('getUser')
   async getUser(@Req() req: Request) {
     try {
-      const cookie = req.cookies["jwt"];
+      const cookie = req.cookies['jwt'];
       //check if the cookie is valid or not
       const data = await this.jwtService.verifyAsync(cookie);
       if (!data) {
@@ -108,7 +131,7 @@ export class UserController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateUserDto: Prisma.userUpdateInput,
+    @Body() updateUserDto: Prisma.usersUpdateInput,
   ) {
     return this.userService.update(+id, updateUserDto);
   }

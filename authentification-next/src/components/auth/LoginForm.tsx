@@ -23,9 +23,9 @@ const Form = () => {
     const userInfos = { email, password };
     await request("POST", "/user/login", userInfos)
       .then(() => {
-        router.push("/profile");
+        router.push("/dashboard");
       })
-      .catch((e: Error) => alert(e.response.data.message));
+      .catch((e: any) => alert(e.response.data.message));
   };
 
   return (

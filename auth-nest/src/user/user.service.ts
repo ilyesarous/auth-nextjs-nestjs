@@ -15,7 +15,7 @@ export class UserService {
     private readonly mailService: MailerService,
   ) {}
 
-  async create(createUser: Prisma.userCreateInput) {
+  async create(createUser: Prisma.usersCreateInput) {
     if (createUser.password.length < 6) {
       throw new NotAcceptableException(
         'password needs to have at least 6 caracters!',
@@ -24,18 +24,18 @@ export class UserService {
     const saltOrRounds = 10;
     // crypting the password using bcrypt
     createUser.password = await bcrypt.hash(createUser.password, saltOrRounds);
-    const user = await this.databaseService.user.create({ data: createUser });
+    const user = await this.databaseService.users.create({ data: createUser });
     delete user.password; //to not show the password in the return
 
     return user;
   }
 
   findAll() {
-    return this.databaseService.user.findMany();
+    return this.databaseService.users.findMany();
   }
 
   findOne(id: number) {
-    return this.databaseService.user.findUnique({
+    return this.databaseService.users.findUnique({
       where: {
         id,
       },
@@ -43,7 +43,7 @@ export class UserService {
   }
 
   findOneByEmail(email: string) {
-    let user = this.databaseService.user.findUnique({
+    let user = this.databaseService.users.findUnique({
       where: {
         email,
       },
@@ -63,11 +63,11 @@ export class UserService {
     });
   }
 
-  async update(id: number, updateUser: Prisma.userUpdateInput) {
+  async update(id: number, updateUser: Prisma.usersUpdateInput) {
     // crypting the password using bcrypt
     const { password, name, updatedAt } = updateUser;
     const hashedPassword = password ? await bcrypt.hash(password.toString(), 10) : undefined;
-    return this.databaseService.user.update({
+    return this.databaseService.users.update({
       data: {
         name,
         password: hashedPassword,
@@ -80,7 +80,7 @@ export class UserService {
   }
 
   remove(id: number) {
-    return this.databaseService.user.delete({
+    return this.databaseService.users.delete({
       where: {
         id,
       },

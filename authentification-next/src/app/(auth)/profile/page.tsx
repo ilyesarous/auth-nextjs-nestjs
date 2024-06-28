@@ -1,5 +1,5 @@
 import Loading from "@/app/loading";
-import ProfileComponent from "@/components/Profile";
+import ProfileComponent from "@/components/auth/Profile";
 import React, { Suspense } from "react";
 
 const Profile = () => {

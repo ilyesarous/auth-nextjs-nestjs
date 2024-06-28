@@ -5,6 +5,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -31,6 +32,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
+    MulterModule.register({
+      dest: "/images"
+    })
   ],
 
   controllers: [UserController],

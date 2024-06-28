@@ -11,6 +11,7 @@ async function bootstrap() {
     credentials: true, //to allow sending the cookie/token into the front 
   });
   app.setGlobalPrefix('api');
+
   await app.listen(3001);
 }
 bootstrap();
