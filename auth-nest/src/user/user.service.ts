@@ -65,13 +65,14 @@ export class UserService {
 
   async update(id: number, updateUser: Prisma.usersUpdateInput) {
     // crypting the password using bcrypt
-    const { password, name, updatedAt } = updateUser;
+    const { password, name, updatedAt, image } = updateUser;
     const hashedPassword = password ? await bcrypt.hash(password.toString(), 10) : undefined;
     return this.databaseService.users.update({
       data: {
         name,
         password: hashedPassword,
         updatedAt,
+        image
       },
       where: {
         id,

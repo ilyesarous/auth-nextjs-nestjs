@@ -129,11 +129,28 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(
+  @UseInterceptors( //interceptor to upload a file
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './images', // folder destination 
+        filename: (req, file, cb) => {
+          const filename = `UPLOADEDPROFILEPIC-${uuidv4()}-${file.originalname}`; // change the file name
+          cb(null, filename);
+        },  
+      }),
+    }),
+  )
+  async update(
     @Param('id') id: string,
-    @Body() updateUserDto: Prisma.usersUpdateInput,
+    @Body() updateUser: Prisma.usersUpdateInput,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.userService.update(+id, updateUserDto);
+    if (file) {
+      updateUser.image = file.filename;
+    }
+    console.log(updateUser.image);
+    
+    return this.userService.update(+id, updateUser);
   }
 
   @Delete(':id')

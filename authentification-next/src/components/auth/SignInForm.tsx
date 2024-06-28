@@ -14,9 +14,7 @@ const Form = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const [image, setImage] = useState<any>(
-    require("../../../../auth-nest/images/UPLOADEDPROFILEPIC-661a3ff0-29b8-4592-808f-4b6e68e9cf68-836.jpg")
-  );
+  const [image, setImage] = useState<any>();
   const [selectedFile, setSelectedFile] = useState<File>();
   const [password, setPassowrd] = useState("");
   const [verifPassword, setVerifPassword] = useState("");
