@@ -24,8 +24,29 @@ model users {
   updatedAt DateTime @updatedAt
 }
 
+model offers {
+  id           Int      @id @default(autoincrement())
+  position     Position
+  positioname  String
+  description  String
+  requirements String
+  technologies String
+  contract     String?
+  salary       String?
+  skills       String?
+  duration     String?
+  nbCondidats  Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 enum Role {
   INTERN
   CONDIDAT
   ADMIN
+}
+
+enum Position {
+  INTERNSHIP
+  JOB
 }

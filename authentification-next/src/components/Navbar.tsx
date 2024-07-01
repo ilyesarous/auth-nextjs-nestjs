@@ -10,7 +10,6 @@ import { IoPersonSharp, IoSettingsSharp } from "react-icons/io5";
 const Navbar = () => {
   const [user, setUser] = useState<any>({});
   const [isUser, setisUser] = useState(true);
-  const [showMenu, setShowMenu] = useState(false);
   const [image, setImage] = useState<any>();
   const router = useRouter();
 
