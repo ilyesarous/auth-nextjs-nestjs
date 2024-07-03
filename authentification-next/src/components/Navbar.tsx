@@ -25,7 +25,7 @@ const Navbar = () => {
     getUser();
   }, []);
 
-  if (!isUser) return notFound();
+  if (!isUser) router.push("/login");
   return (
     <div className="flex items-center justify-between py-5 px-5 md:px-24 w-full shadow-sm">
       <p className="font-semibold text-lg">Logo.</p>

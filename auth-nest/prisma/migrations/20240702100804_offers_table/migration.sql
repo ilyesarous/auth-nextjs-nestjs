@@ -1,10 +1,14 @@
 -- CreateEnum
 CREATE TYPE "Position" AS ENUM ('INTERNSHIP', 'JOB');
 
+-- CreateEnum
+CREATE TYPE "Departement" AS ENUM ('DEVELOPMENT', 'MARKETING', 'HR', 'ACCOUNTING');
+
 -- CreateTable
 CREATE TABLE "offers" (
     "id" SERIAL NOT NULL,
     "position" "Position" NOT NULL,
+    "departement" "Departement" NOT NULL,
     "positioname" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "requirements" TEXT NOT NULL,

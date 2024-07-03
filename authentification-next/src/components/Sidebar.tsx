@@ -30,9 +30,8 @@ const Sidebar = ({ sendDataToParent }: any) => {
   const [selectedId, setSelectedId] = useState(1);
   const router = useRouter();
 
-  const sendDataToParentHandler = (item: any) => {
-    // const text = items.find((item) => item.id === id);
-    sendDataToParent(item.text);
+  const sendDataToParentHandler = (item: any, position: string) => {
+    sendDataToParent(item.text, position);
   };
 
   const logoutHandler = () => {
@@ -44,12 +43,18 @@ const Sidebar = ({ sendDataToParent }: any) => {
     <div className="flex flex-col w-1/5 py-10 pl-5 justify-between">
       <div className="flex flex-col gap-5">
         {items.map((item) => {
+          let p: string
+          if (item.id === 3) {
+            p = "INTERNSHIP"
+          }else if (item.id === 4) {
+            p = "JOB"
+          }
           return (
             <p
               key={item.id}
               onClick={() => {
                 setSelectedId(item.id);
-                sendDataToParentHandler(item);
+                sendDataToParentHandler(item, p);
               }}
               className={
                 selectedId === item.id

@@ -1,11 +1,13 @@
 "use client";
 
 import { request } from "@/api/AxiosHelper";
+import { Offer } from "@/app/definitions";
 import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useRef, useState } from "react";
 
 const NewOffer = () => {
   const [position, setPosition] = useState("");
+  const [departement, setDepartement] = useState("");
   const [positionName, setPositionName] = useState("");
   const [description, setDescription] = useState("");
   const [requirements, setRequirements] = useState("");
@@ -13,7 +15,7 @@ const NewOffer = () => {
   const [skills, setSkills] = useState("");
   const [duration, setDuration] = useState("");
   const [nbCondidats, setNbCondidats] = useState(0);
-  const [salary, setSalary] = useState("");
+  const [salary, setSalary] = useState(0);
   const [contract, setContract] = useState("");
   const positionRef = useRef("");
   const router = useRouter();
@@ -25,9 +27,10 @@ const NewOffer = () => {
   const createNewOffer = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const offer = {
+    const offer: Offer = {
       position,
       positioname: positionName,
+      departement,
       description,
       requirements,
       technologies,
@@ -63,6 +66,20 @@ const NewOffer = () => {
             <option value="INTERNSHIP">INTERNSHIP</option>
             <option value="JOB">JOB</option>
           </select>
+          <select
+            required
+            className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5"
+            onChange={(e) => {
+              setDepartement(e.target.value);
+            }}
+          >
+            <option value="">Select a departement</option>
+            <option value="DEVELOPMENT">DEVELOPMENT</option>
+            <option value="MARKETING">MARKETING</option>
+            <option value="HR">HR</option>
+            <option value="ACCOUNTING">ACCOUNTING</option>
+          </select>
+        </div>
           <input
             value={positionName}
             required
@@ -71,7 +88,6 @@ const NewOffer = () => {
             className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
             onChange={(e) => setPositionName(e.target.value)}
           />
-        </div>
         <input
           value={description}
           required
@@ -148,7 +164,7 @@ const NewOffer = () => {
               min={0}
               placeholder="Salary"
               className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
-              onChange={(e) => setSalary(e.target.value)}
+              onChange={(e) => setSalary(parseInt(e.target.value))}
             />
           )}
         </div>

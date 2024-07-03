@@ -25,8 +25,9 @@ model users {
 }
 
 model offers {
-  id           Int      @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   position     Position
+  departement  Departement
   positioname  String
   description  String
   requirements String
@@ -36,8 +37,8 @@ model offers {
   skills       String?
   duration     String?
   nbCondidats  Int?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 enum Role {
@@ -49,4 +50,11 @@ enum Role {
 enum Position {
   INTERNSHIP
   JOB
+}
+
+enum Departement {
+  DEVELOPMENT
+  MARKETING
+  HR
+  ACCOUNTING
 }
