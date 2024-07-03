@@ -35,7 +35,7 @@ const ShowOffers = ({ position }: any) => {
       </span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full">
         {offers
-          .filter((offer) =>
+          .filter((offer: Offer) =>
             search !== "" ? offer.positioname.includes(search) : offer
           )
           .map((offer: Offer) => {
