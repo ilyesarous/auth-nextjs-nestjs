@@ -1,12 +1,12 @@
 export type Offer = {
-  id?: number;
+  id: number | undefined;
   position: string;
   positioname: string;
   departement: string;
   description: string;
   requirements: string;
   technologies: string;
-  salary?: number;
+  salary?: string;
   contract?: string;
   skills?: string;
   duration?: string;
@@ -14,7 +14,6 @@ export type Offer = {
 };
 
 export type OfferCard = {
-  id?: number;
   departement: string;
   positioname: string;
   position: string;

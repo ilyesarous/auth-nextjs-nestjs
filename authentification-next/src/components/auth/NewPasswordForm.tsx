@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const NewPasswordForm = () => {
   const [isShown, setIsShown] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser]:any = useState({});
   const [showPass, setShowPass] = useState("password");
   const [password, setPassowrd] = useState("");
   const [verifPassword, setVerifPassword] = useState("");
@@ -40,7 +40,7 @@ const NewPasswordForm = () => {
           alert(`password updated successfully for ${user.email}`);
           router.push("/login");
         })
-        .catch((e: Error) => alert(e.response.data.message));
+        .catch((e: any) => alert(e.response.data.message));
       // console.log(userInfos);
     }
   };
@@ -87,7 +87,7 @@ const NewPasswordForm = () => {
 
         <button
           type="submit"
-          className="bg-gray-500 p-2 rounded-md text-white font-medium"
+          className="border rounded-md w-full p-1 border-gray-400 hover:bg-gray-400 hover:text-white transition-all"
         >
           update password
         </button>

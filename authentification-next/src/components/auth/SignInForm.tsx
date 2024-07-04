@@ -14,7 +14,9 @@ const Form = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState(
+    require(`../../../../auth-nest/images/836.jpg`)
+  );
   const [selectedFile, setSelectedFile] = useState<File>();
   const [password, setPassowrd] = useState("");
   const [verifPassword, setVerifPassword] = useState("");
@@ -145,7 +147,7 @@ const Form = () => {
         </div>
         <button
           type="submit"
-          className="bg-gray-500 p-2 rounded-md text-white font-medium"
+          className="border rounded-md w-full p-1 border-gray-400 hover:bg-gray-400 hover:text-white transition-all"
         >
           register
         </button>

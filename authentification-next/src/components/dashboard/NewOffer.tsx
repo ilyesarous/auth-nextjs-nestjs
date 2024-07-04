@@ -15,7 +15,7 @@ const NewOffer = () => {
   const [skills, setSkills] = useState("");
   const [duration, setDuration] = useState("");
   const [nbCondidats, setNbCondidats] = useState(0);
-  const [salary, setSalary] = useState(0);
+  const [salary, setSalary] = useState("");
   const [contract, setContract] = useState("");
   const positionRef = useRef("");
   const router = useRouter();
@@ -80,14 +80,14 @@ const NewOffer = () => {
             <option value="ACCOUNTING">ACCOUNTING</option>
           </select>
         </div>
-          <input
-            value={positionName}
-            required
-            type="text"
-            placeholder="Position name"
-            className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
-            onChange={(e) => setPositionName(e.target.value)}
-          />
+        <input
+          value={positionName}
+          required
+          type="text"
+          placeholder="Position name"
+          className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
+          onChange={(e) => setPositionName(e.target.value)}
+        />
         <input
           value={description}
           required
@@ -164,20 +164,20 @@ const NewOffer = () => {
               min={0}
               placeholder="Salary"
               className="bg-transparent border border-gray-300 text-sm rounded-md py-4 block w-full p-2.5 "
-              onChange={(e) => setSalary(parseInt(e.target.value))}
+              onChange={(e) => setSalary(e.target.value)}
             />
           )}
         </div>
         <div className="flex justify-end w-full gap-3">
           <button
             onClick={cancelationHandler}
-            className="border rounded-md py-2 px-3 border-red-400 hover:bg-red-400 hover:text-white transition-all"
+            className="border rounded-md py-1 px-3 border-red-400 hover:bg-red-400 hover:text-white transition-all"
           >
             cancel
           </button>
           <button
             type="submit"
-            className="border rounded-md py-2 px-3 border-gray-400 hover:bg-gray-400 hover:text-white transition-all"
+            className="border rounded-md py-1 px-3 border-gray-400 hover:bg-gray-400 hover:text-white transition-all"
           >
             create
           </button>

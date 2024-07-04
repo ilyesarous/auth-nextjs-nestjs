@@ -5,7 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { IoPersonSharp, IoSettingsSharp } from "react-icons/io5";
+import {
+  IoNotifications,
+  IoPersonSharp,
+  IoSettingsSharp,
+} from "react-icons/io5";
 
 const Navbar = () => {
   const [user, setUser] = useState<any>({});
@@ -30,7 +34,12 @@ const Navbar = () => {
     <div className="flex items-center justify-between py-5 px-5 md:px-24 w-full shadow-sm">
       <p className="font-semibold text-lg">Logo.</p>
       <span className="flex gap-5 items-center">
-        <p className="font-medium text-lg">welcome {user.name}</p>
+        <div className="flex hover:cursor-pointer">
+          <IoNotifications />
+          <span className="w-[6px] h-[6px] rounded-full bg-gray-400"></span>
+        </div>
+        <p className="font-medium text-lg">{user.name}</p>
+
         <div className="relative group hover:cursor-pointer transition-all">
           <Image
             className="rounded-full shadow-md w-12 h-12 object-contain"
@@ -41,11 +50,15 @@ const Navbar = () => {
           <ul className="p-5 rounded-lg shadow-md bg-white absolute transition-all hidden w-auto flex-col gap-1 group-hover:flex">
             <Link href={"/profile"} className="flex gap-2 items-center">
               <IoPersonSharp color="#9ca3af" />
-              <p className="text-gray-400 font-medium hover:text-black transition-all">profile</p>
+              <p className="text-gray-400 font-medium hover:text-black transition-all">
+                profile
+              </p>
             </Link>
             <li className="flex gap-2 items-center">
               <IoSettingsSharp color="#9ca3af" />
-              <p className="text-gray-400 font-medium hover:text-black transition-all ">settings</p>
+              <p className="text-gray-400 font-medium hover:text-black transition-all ">
+                settings
+              </p>
             </li>
           </ul>
         </div>

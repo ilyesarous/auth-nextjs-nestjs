@@ -17,7 +17,7 @@ const ForgotPasswordForm = () => {
         alert(`an emali was sent to ${email}`);
         router.push("/login");
       })
-      .catch((e: Error) => {
+      .catch((e: any) => {
         alert(e.response.data.message);
       });
   };
@@ -40,7 +40,7 @@ const ForgotPasswordForm = () => {
         </div>
         <button
           type="submit"
-          className="bg-gray-500 py-2 px-4 rounded-md text-white font-medium"
+          className="border rounded-md w-full p-1 border-gray-400 hover:bg-gray-400 hover:text-white transition-all"
         >
           send
         </button>

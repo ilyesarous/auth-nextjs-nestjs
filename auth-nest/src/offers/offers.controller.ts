@@ -15,7 +15,7 @@ export class OffersController {
   findAll() {
     return this.offersService.findAll();
   }
-
+ 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.offersService.findOne(+id);
