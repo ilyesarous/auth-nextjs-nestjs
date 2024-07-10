@@ -1,7 +1,11 @@
 import React from "react";
 
 const Application = () => {
-  return <div>//TODO Application</div>;
+  return <div>
+    <form>
+      <input type="text" placeholder=""/>
+    </form>
+  </div>;
 };
 
 export default Application;
